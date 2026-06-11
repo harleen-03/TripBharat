@@ -2,7 +2,7 @@ package com.tripbharat.tripbharat.controller;
 
 import com.tripbharat.tripbharat.model.TripRequest;
 import com.tripbharat.tripbharat.model.TripResponse;
-import com.tripbharat.tripbharat.service.ClaudeService;
+import com.tripbharat.tripbharat.service.GroqService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,12 +14,12 @@ public class TripController {
 
 
     @Autowired
-    private ClaudeService claudeService;
+    private GroqService groqService;
 
     @PostMapping("/plan")
     public TripResponse generatePlan(@RequestBody TripRequest request) {
         try {
-            String plan = claudeService.generateTripPlan(request);
+            String plan = groqService.generateTripPlan(request);
             return new TripResponse(plan);
         } catch (Exception e) {
             return new TripResponse(e.getMessage(), false);
