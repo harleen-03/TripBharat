@@ -297,3 +297,122 @@ html, body {
   .trip-card__body    { padding: 20px; }
   .trip-card__actions { padding: 0 20px 20px; }
 }
+
+/* ── Plan Sections ────────────────────────── */
+.plan-section {
+  margin-bottom: 20px;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid var(--gray2);
+}
+
+.plan-section__header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 16px;
+  background: var(--gray1);
+  border-left: 4px solid var(--orange);
+  border-bottom: 1px solid var(--gray2);
+}
+
+.plan-section__icon  {
+  font-size: 18px;
+}
+
+.plan-section__label {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--black);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.plan-section__body {
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+/* ── Bullet Lines ─────────────────────────── */
+.bullet-line {
+  font-size: 13px;
+  color: var(--black);
+  line-height: 1.7;
+  padding-left: 4px;
+}
+
+.text-line {
+  font-size: 13px;
+  color: var(--black);
+  line-height: 1.7;
+}
+
+/* ── Day Headers ──────────────────────────── */
+.day-header {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--orange);
+  margin-top: 10px;
+  margin-bottom: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.day-header:first-child {
+  margin-top: 0;
+}
+
+/* ── Budget Lines ─────────────────────────── */
+.budget-line {
+  font-size: 13px;
+  color: var(--black);
+  line-height: 1.7;
+  padding: 4px 0;
+  border-bottom: 1px solid var(--gray2);
+}
+
+.budget-line:last-child {
+  border-bottom: none;
+}
+
+.budget-line--total {
+  font-weight: 700;
+  color: var(--orange);
+  font-size: 14px;
+  border-top: 2px solid var(--gray2);
+  margin-top: 4px;
+  padding-top: 8px;
+}
+
+/* ── Warning Lines ────────────────────────── */
+.warning-line {
+  font-size: 13px;
+  color: #B71C1C;
+  background: #FFF5F5;
+  border-radius: 4px;
+  padding: 6px 10px;
+  line-height: 1.6;
+}
+
+/* ── WhatsApp Summary Box ─────────────────── */
+.whatsapp-box {
+  background: #F0FFF4;
+  border: 1px solid #C6F6D5;
+  border-radius: 8px;
+  padding: 14px 16px;
+  font-size: 13px;
+  color: #1A4731;
+  line-height: 1.8;
+  white-space: pre-wrap;
+}
+
+/* ── Plain text fallback ──────────────────── */
+.plain-text {
+  font-family: var(--font);
+  font-size: 13px;
+  line-height: 1.8;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
