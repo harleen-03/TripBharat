@@ -1,0 +1,299 @@
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --orange:    #FF6B35;
+  --orange-dk: #E55A25;
+  --black:     #1A1A1A;
+  --white:     #FFFFFF;
+  --gray1:     #F8F8F6;
+  --gray2:     #EFEFED;
+  --gray3:     #AAAAAA;
+  --gray4:     #666666;
+  --green:     #25D366;
+  --font:      'Segoe UI', system-ui, sans-serif;
+  --radius:    10px;
+  --shadow:    0 4px 24px rgba(0,0,0,0.08);
+}
+
+html, body {
+  min-height: 100vh;
+  background: var(--gray1);
+  font-family: var(--font);
+  color: var(--black);
+  line-height: 1.6;
+}
+
+.page {
+  max-width: 780px;
+  margin: 0 auto;
+  padding: 0 16px 60px;
+}
+
+/* ── Header ───────────────────────────────── */
+.header {
+  text-align: center;
+  padding: 48px 0 32px;
+}
+
+.header__logo {
+  font-size: 36px;
+  font-weight: 800;
+  color: var(--orange);
+  letter-spacing: -0.5px;
+  margin-bottom: 8px;
+}
+
+.header__tagline {
+  font-size: 15px;
+  color: var(--gray4);
+}
+
+/* ── Form Card ────────────────────────────── */
+.form-card {
+  background: var(--white);
+  border-radius: var(--radius);
+  padding: 32px;
+  box-shadow: var(--shadow);
+}
+
+.form-title {
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 24px;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.form-group label {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--gray4);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.form-group input,
+.form-group select {
+  padding: 10px 14px;
+  border: 1.5px solid var(--gray2);
+  border-radius: 6px;
+  font-size: 14px;
+  font-family: var(--font);
+  color: var(--black);
+  background: var(--white);
+  transition: border-color 0.2s;
+  outline: none;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+  border-color: var(--orange);
+}
+
+/* ── Presets ──────────────────────────────── */
+.presets {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.presets__label {
+  font-size: 12px;
+  color: var(--gray3);
+  font-weight: 500;
+}
+
+.preset-btn {
+  padding: 5px 12px;
+  border: 1.5px solid var(--gray2);
+  border-radius: 20px;
+  font-size: 12px;
+  font-family: var(--font);
+  color: var(--gray4);
+  background: var(--white);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.preset-btn:hover {
+  border-color: var(--orange);
+  color: var(--orange);
+  background: #FFF5F2;
+}
+
+/* ── Plan Button ──────────────────────────── */
+.plan-btn {
+  width: 100%;
+  padding: 14px;
+  background: var(--orange);
+  color: var(--white);
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 700;
+  font-family: var(--font);
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.plan-btn:hover   { background: var(--orange-dk); }
+.plan-btn:disabled {
+  background: var(--gray3);
+  cursor: not-allowed;
+}
+
+/* ── Loading ──────────────────────────────── */
+.loading {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  padding: 48px 0;
+  text-align: center;
+}
+
+.loading.visible { display: flex; }
+
+.loading__spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid var(--gray2);
+  border-top-color: var(--orange);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.loading__text {
+  font-size: 14px;
+  color: var(--gray4);
+}
+
+/* ── Error ────────────────────────────────── */
+.error-box {
+  display: none;
+  background: #FFF0F0;
+  border: 1px solid #FFCCCC;
+  border-left: 4px solid #E53935;
+  border-radius: var(--radius);
+  padding: 14px 18px;
+  font-size: 13px;
+  color: #B71C1C;
+  margin-top: 20px;
+}
+
+.error-box.visible { display: block; }
+
+/* ── Result ───────────────────────────────── */
+.result-section {
+  display: none;
+  margin-top: 28px;
+}
+
+.result-section.visible { display: block; }
+
+.trip-card {
+  background: var(--white);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+
+.trip-card__header {
+  background: var(--orange);
+  padding: 20px 28px;
+}
+
+.trip-card__route {
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--white);
+  margin-bottom: 4px;
+}
+
+.trip-card__meta {
+  font-size: 13px;
+  color: rgba(255,255,255,0.85);
+}
+
+.trip-card__body {
+  padding: 28px;
+}
+
+#trip-plan {
+  font-family: var(--font);
+  font-size: 14px;
+  line-height: 1.8;
+  color: var(--black);
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+/* ── Action Buttons ───────────────────────── */
+.trip-card__actions {
+  display: flex;
+  gap: 10px;
+  padding: 0 28px 28px;
+  flex-wrap: wrap;
+}
+
+.action-btn {
+  padding: 10px 18px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  font-family: var(--font);
+  cursor: pointer;
+  border: none;
+  transition: opacity 0.2s;
+}
+
+.action-btn:hover      { opacity: 0.85; }
+.action-btn--copy      { background: var(--gray2); color: var(--black); }
+.action-btn--whatsapp  { background: var(--green); color: var(--white); }
+.action-btn--new       { background: var(--orange); color: var(--white); }
+
+/* ── Footer ───────────────────────────────── */
+.footer {
+  text-align: center;
+  padding: 40px 0 0;
+  font-size: 12px;
+  color: var(--gray3);
+  line-height: 1.8;
+}
+
+.footer a {
+  color: var(--orange);
+  text-decoration: none;
+}
+
+.footer__disclaimer {
+  margin-top: 4px;
+  font-size: 11px;
+}
+
+/* ── Responsive ───────────────────────────── */
+@media (max-width: 520px) {
+  .form-grid          { grid-template-columns: 1fr; }
+  .form-card          { padding: 20px; }
+  .trip-card__body    { padding: 20px; }
+  .trip-card__actions { padding: 0 20px 20px; }
+}
