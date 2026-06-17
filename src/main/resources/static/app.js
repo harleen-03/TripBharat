@@ -2,6 +2,7 @@ let currentPlan = '';
 let currentFrom = '';
 let currentTo   = '';
 
+// ── Fill Preset ────────────────────────────
 function fillPreset(from, to, days, style) {
   document.getElementById('from').value  = from;
   document.getElementById('to').value    = to;
@@ -9,6 +10,7 @@ function fillPreset(from, to, days, style) {
   document.getElementById('style').value = style;
 }
 
+// ── Plan Trip ──────────────────────────────
 async function planTrip() {
   const from   = document.getElementById('from').value.trim();
   const to     = document.getElementById('to').value.trim();
@@ -55,19 +57,19 @@ async function planTrip() {
   }
 }
 
-// ── Section config — icon, label, colour ──
+// ── Section config ─────────────────────────
 const SECTIONS = [
-  { key: '🚗 ROUTE OVERVIEW',     icon: '🚗', label: 'Route Overview',     color: '#FF6B35' },
-  { key: '⛽ FUEL STOPS',          icon: '⛽', label: 'Fuel Stops',          color: '#F59E0B' },
-  { key: '🍽️ EAT ON THE WAY',     icon: '🍽️', label: 'Eat on the Way',     color: '#10B981' },
-  { key: '💎 HIDDEN GEMS',         icon: '💎', label: 'Hidden Gems',         color: '#8B5CF6' },
-  { key: '📅 DAY-WISE ITINERARY',  icon: '📅', label: 'Day-wise Itinerary',  color: '#3B82F6' },
-  { key: '💰 BUDGET BREAKDOWN',    icon: '💰', label: 'Budget Breakdown',    color: '#059669' },
-  { key: '⚠️ TRIP WARNINGS',       icon: '⚠️', label: 'Trip Warnings',       color: '#EF4444' },
-  { key: '📲 WHATSAPP SUMMARY',    icon: '📲', label: 'WhatsApp Summary',    color: '#25D366' },
+  { key: '🚗 ROUTE OVERVIEW',    icon: '🚗', label: 'Route Overview',    color: '#FF6B35' },
+  { key: '⛽ FUEL STOPS',         icon: '⛽', label: 'Fuel Stops',         color: '#F59E0B' },
+  { key: '🍽️ EAT ON THE WAY',    icon: '🍽️', label: 'Eat on the Way',    color: '#10B981' },
+  { key: '💎 HIDDEN GEMS',        icon: '💎', label: 'Hidden Gems',        color: '#8B5CF6' },
+  { key: '📅 DAY-WISE ITINERARY', icon: '📅', label: 'Day-wise Itinerary', color: '#3B82F6' },
+  { key: '💰 BUDGET BREAKDOWN',   icon: '💰', label: 'Budget Breakdown',   color: '#059669' },
+  { key: '⚠️ TRIP WARNINGS',      icon: '⚠️', label: 'Trip Warnings',      color: '#EF4444' },
+  { key: '📲 WHATSAPP SUMMARY',   icon: '📲', label: 'WhatsApp Summary',   color: '#25D366' },
 ];
 
-// ── Parse plan text into sections ─────────
+// ── Parse plan into sections ───────────────
 function parsePlan(planText) {
   const sections = [];
   let remaining  = planText;
@@ -76,7 +78,6 @@ function parsePlan(planText) {
     const startIdx = remaining.indexOf(sec.key);
     if (startIdx === -1) return;
 
-    // Find where next section starts
     let endIdx = remaining.length;
     for (let j = i + 1; j < SECTIONS.length; j++) {
       const nextIdx = remaining.indexOf(SECTIONS[j].key);
@@ -101,13 +102,13 @@ function renderPlan(planText) {
   const sections = parsePlan(planText);
 
   if (sections.length === 0) {
-    // Fallback — just show plain text
     return `<pre class="plain-text">${planText}</pre>`;
   }
 
   return sections.map(sec => `
     <div class="plan-section">
-      <div class="plan-section__header" style="border-left-color: ${sec.color}">
+      <div class="plan-section__header"
+           style="border-left-color: ${sec.color}">
         <span class="plan-section__icon">${sec.icon}</span>
         <span class="plan-section__label">${sec.label}</span>
       </div>
@@ -118,16 +119,14 @@ function renderPlan(planText) {
   `).join('');
 }
 
-// ── Format content per section type ───────
+// ── Format content per section ─────────────
 function formatContent(content, sectionKey) {
   if (!content) return '';
 
-  // WhatsApp summary — highlight box
   if (sectionKey === '📲 WHATSAPP SUMMARY') {
     return `<div class="whatsapp-box">${content}</div>`;
   }
 
-  // Budget — highlight total line
   if (sectionKey === '💰 BUDGET BREAKDOWN') {
     const lines = content.split('\n').filter(l => l.trim());
     return lines.map(line => {
@@ -138,7 +137,6 @@ function formatContent(content, sectionKey) {
     }).join('');
   }
 
-  // Warnings — each bullet gets a warning pill
   if (sectionKey === '⚠️ TRIP WARNINGS') {
     const lines = content.split('\n').filter(l => l.trim());
     return lines.map(line =>
@@ -146,18 +144,32 @@ function formatContent(content, sectionKey) {
     ).join('');
   }
 
-  // Default — render bullet points nicely
   const lines = content.split('\n').filter(l => l.trim());
   return lines.map(line => {
     const trimmed = line.trim();
-    if (trimmed.startsWith('•') || trimmed.startsWith('-')) {
-      return `<div class="bullet-line">${trimmed}</div>`;
-    }
     if (trimmed.startsWith('DAY')) {
       return `<div class="day-header">${trimmed}</div>`;
     }
+    if (trimmed.startsWith('•') || trimmed.startsWith('-')) {
+      return `<div class="bullet-line">${trimmed}</div>`;
+    }
     return `<div class="text-line">${trimmed}</div>`;
   }).join('');
+}
+
+// ── Update Google Maps embed ───────────────
+function updateMap(from, to) {
+  const origin      = encodeURIComponent(from + ', India');
+  const destination = encodeURIComponent(to + ', India');
+  const mapUrl =
+    `https://www.google.com/maps/embed/v1/directions` +
+    `?key=AIzaSyB41DRUbKWJHPxaFjMAwdrzWzbVKartNGg` +
+    `&origin=${origin}` +
+    `&destination=${destination}` +
+    `&mode=driving` +
+    `&language=en`;
+
+  document.getElementById('route-map').src = mapUrl;
 }
 
 // ── Show Result ────────────────────────────
@@ -167,36 +179,48 @@ function showResult(from, to, days, style, budget, plan) {
   document.getElementById('trip-meta').textContent =
     `${days} Day${days > 1 ? 's' : ''} · ${style} · ${budget}`;
 
-  // Render as styled sections
   document.getElementById('trip-plan').innerHTML = renderPlan(plan);
+
+  updateMap(from, to);
 
   document.getElementById('result-section').classList.add('visible');
   document.getElementById('result-section')
     .scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
+// ── Copy Plan ──────────────────────────────
 function copyPlan() {
   if (!currentPlan) return;
   navigator.clipboard.writeText(currentPlan).then(() => {
-    const btn = document.querySelector('.action-btn--copy');
+    const btn  = document.querySelector('.action-btn--copy');
     const orig = btn.textContent;
     btn.textContent = '✅ Copied!';
     setTimeout(() => btn.textContent = orig, 2000);
   });
 }
 
+// ── Share on WhatsApp ──────────────────────
 function shareWhatsApp() {
   if (!currentPlan) return;
-  const text = `🚗 *${currentFrom} → ${currentTo} Road Trip Plan*\n\n${currentPlan}\n\n_Planned by TripBharat — India's AI Road Trip Planner_`;
-  window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, '_blank');
+  const text =
+    `🚗 *${currentFrom} → ${currentTo} Road Trip Plan*\n\n` +
+    `${currentPlan}\n\n` +
+    `_Planned by TripBharat — India's AI Road Trip Planner_`;
+  window.open(
+    `https://wa.me/?text=${encodeURIComponent(text)}`,
+    '_blank'
+  );
 }
 
+// ── New Trip ───────────────────────────────
 function newTrip() {
   hideResult();
+  document.getElementById('route-map').src = '';
   window.scrollTo({ top: 0, behavior: 'smooth' });
   document.getElementById('from').focus();
 }
 
+// ── Helpers ────────────────────────────────
 function showLoading(show) {
   const el  = document.getElementById('loading');
   const btn = document.getElementById('plan-btn');

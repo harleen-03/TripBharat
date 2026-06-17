@@ -1,3 +1,4 @@
+/* ── Reset & Base ─────────────────────────── */
 *, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
@@ -153,7 +154,7 @@ html, body {
   transition: background 0.2s;
 }
 
-.plan-btn:hover   { background: var(--orange-dk); }
+.plan-btn:hover    { background: var(--orange-dk); }
 .plan-btn:disabled {
   background: var(--gray3);
   cursor: not-allowed;
@@ -290,14 +291,6 @@ html, body {
   font-size: 11px;
 }
 
-/* ── Responsive ───────────────────────────── */
-@media (max-width: 520px) {
-  .form-grid          { grid-template-columns: 1fr; }
-  .form-card          { padding: 20px; }
-  .trip-card__body    { padding: 20px; }
-  .trip-card__actions { padding: 0 20px 20px; }
-}
-
 /* ── Plan Sections ────────────────────────── */
 .plan-section {
   margin-bottom: 20px;
@@ -316,9 +309,7 @@ html, body {
   border-bottom: 1px solid var(--gray2);
 }
 
-.plan-section__icon  {
-  font-size: 18px;
-}
+.plan-section__icon  { font-size: 18px; }
 
 .plan-section__label {
   font-size: 13px;
@@ -360,9 +351,7 @@ html, body {
   letter-spacing: 0.05em;
 }
 
-.day-header:first-child {
-  margin-top: 0;
-}
+.day-header:first-child { margin-top: 0; }
 
 /* ── Budget Lines ─────────────────────────── */
 .budget-line {
@@ -373,9 +362,7 @@ html, body {
   border-bottom: 1px solid var(--gray2);
 }
 
-.budget-line:last-child {
-  border-bottom: none;
-}
+.budget-line:last-child { border-bottom: none; }
 
 .budget-line--total {
   font-weight: 700;
@@ -417,6 +404,37 @@ html, body {
   word-wrap: break-word;
 }
 
+/* ── Map Section ──────────────────────────── */
+.map-section {
+  border-top: 1px solid var(--gray2);
+  overflow: hidden;
+}
+
+.map-section__header {
+  padding: 12px 20px;
+  background: var(--gray1);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--gray4);
+  border-bottom: 1px solid var(--gray2);
+}
+
+.map-container {
+  position: relative;
+  width: 100%;
+  height: 350px;
+  background: var(--gray2);
+}
+
+.map-container iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
 /* ══════════════════════════════════════════
    DAY 8 — MOBILE RESPONSIVE
    ══════════════════════════════════════════ */
@@ -424,95 +442,37 @@ html, body {
 /* ── Tablet (max 768px) ───────────────────── */
 @media (max-width: 768px) {
 
-  .header {
-    padding: 32px 0 24px;
-  }
-
-  .header__logo {
-    font-size: 28px;
-  }
-
-  .header__tagline {
-    font-size: 13px;
-  }
-
-  .form-card {
-    padding: 24px;
-  }
-
-  .form-grid {
-    grid-template-columns: 1fr 1fr;
-    gap: 12px;
-  }
-
-  .trip-card__route {
-    font-size: 18px;
-  }
-
-  .trip-card__header {
-    padding: 16px 20px;
-  }
-
-  .trip-card__body {
-    padding: 20px;
-  }
-
-  .trip-card__actions {
-    padding: 0 20px 20px;
-    gap: 8px;
-  }
+  .header { padding: 32px 0 24px; }
+  .header__logo { font-size: 28px; }
+  .header__tagline { font-size: 13px; }
+  .form-card { padding: 24px; }
+  .form-grid { grid-template-columns: 1fr 1fr; gap: 12px; }
+  .trip-card__route { font-size: 18px; }
+  .trip-card__header { padding: 16px 20px; }
+  .trip-card__body { padding: 20px; }
+  .trip-card__actions { padding: 0 20px 20px; gap: 8px; }
 }
 
 /* ── Mobile (max 520px) ───────────────────── */
 @media (max-width: 520px) {
 
-  .page {
-    padding: 0 12px 48px;
-  }
+  .page { padding: 0 12px 48px; }
+  .header { padding: 24px 0 20px; }
+  .header__logo { font-size: 26px; }
+  .header__tagline { font-size: 12px; padding: 0 8px; }
 
-  .header {
-    padding: 24px 0 20px;
-  }
+  .form-grid { grid-template-columns: 1fr; gap: 12px; }
+  .form-card { padding: 18px; border-radius: 8px; }
+  .form-title { font-size: 17px; margin-bottom: 18px; }
 
-  .header__logo {
-    font-size: 26px;
-  }
-
-  .header__tagline {
-    font-size: 12px;
-    padding: 0 8px;
-  }
-
-  /* Stack form to single column */
-  .form-grid {
-    grid-template-columns: 1fr;
-    gap: 12px;
-  }
-
-  .form-card {
-    padding: 18px;
-    border-radius: 8px;
-  }
-
-  .form-title {
-    font-size: 17px;
-    margin-bottom: 18px;
-  }
-
-  /* Bigger touch targets on mobile */
   .form-group input,
   .form-group select {
     padding: 12px 14px;
-    font-size: 16px; /* prevents iOS zoom on focus */
+    font-size: 16px;
   }
 
-  /* Plan button full width and taller */
-  .plan-btn {
-    padding: 16px;
-    font-size: 15px;
-  }
+  .plan-btn { padding: 16px; font-size: 15px; }
 
-  /* Presets scroll horizontally */
   .presets {
     flex-wrap: nowrap;
     overflow-x: auto;
@@ -521,37 +481,15 @@ html, body {
     scrollbar-width: none;
   }
 
-  .presets::-webkit-scrollbar {
-    display: none;
-  }
+  .presets::-webkit-scrollbar { display: none; }
+  .preset-btn { flex-shrink: 0; white-space: nowrap; }
 
-  .preset-btn {
-    flex-shrink: 0;
-    white-space: nowrap;
-  }
+  .trip-card { border-radius: 8px; }
+  .trip-card__header { padding: 14px 16px; }
+  .trip-card__route { font-size: 17px; }
+  .trip-card__meta { font-size: 12px; }
+  .trip-card__body { padding: 16px; }
 
-  /* Trip card */
-  .trip-card {
-    border-radius: 8px;
-  }
-
-  .trip-card__header {
-    padding: 14px 16px;
-  }
-
-  .trip-card__route {
-    font-size: 17px;
-  }
-
-  .trip-card__meta {
-    font-size: 12px;
-  }
-
-  .trip-card__body {
-    padding: 16px;
-  }
-
-  /* Stack action buttons vertically */
   .trip-card__actions {
     flex-direction: column;
     padding: 0 16px 16px;
@@ -565,67 +503,33 @@ html, body {
     font-size: 14px;
   }
 
-  /* Plan sections */
-  .plan-section {
-    margin-bottom: 14px;
-  }
-
-  .plan-section__header {
-    padding: 10px 14px;
-  }
-
-  .plan-section__label {
-    font-size: 12px;
-  }
-
-  .plan-section__body {
-    padding: 12px 14px;
-  }
+  .plan-section { margin-bottom: 14px; }
+  .plan-section__header { padding: 10px 14px; }
+  .plan-section__label { font-size: 12px; }
+  .plan-section__body { padding: 12px 14px; }
 
   .bullet-line,
   .text-line,
   .budget-line,
-  .warning-line {
-    font-size: 13px;
-  }
+  .warning-line { font-size: 13px; }
 
-  /* Loading */
-  .loading {
-    padding: 32px 0;
-  }
+  .loading { padding: 32px 0; }
+  .loading__text { font-size: 13px; padding: 0 16px; }
 
-  .loading__text {
-    font-size: 13px;
-    padding: 0 16px;
-  }
+  .footer { padding: 28px 0 0; font-size: 11px; }
 
-  /* Footer */
-  .footer {
-    padding: 28px 0 0;
-    font-size: 11px;
-  }
+  .map-container { height: 250px; }
 }
 
 /* ── Small phones (max 380px) ─────────────── */
 @media (max-width: 380px) {
-
-  .header__logo {
-    font-size: 22px;
-  }
-
+  .header__logo { font-size: 22px; }
   .form-group input,
-  .form-group select {
-    font-size: 15px;
-  }
-
-  .trip-card__route {
-    font-size: 15px;
-  }
+  .form-group select { font-size: 15px; }
+  .trip-card__route { font-size: 15px; }
 }
 
 /* ── Fix iOS Safari 100vh bug ─────────────── */
 @supports (-webkit-touch-callout: none) {
-  .page {
-    min-height: -webkit-fill-available;
-  }
+  .page { min-height: -webkit-fill-available; }
 }
