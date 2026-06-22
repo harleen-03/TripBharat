@@ -2,12 +2,33 @@ let currentPlan = '';
 let currentFrom = '';
 let currentTo   = '';
 
+// ── Scroll to planner ──────────────────────
+function scrollToPlanner() {
+  document.getElementById('planner')
+    .scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+// ── Show toast ─────────────────────────────
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2500);
+}
+
 // ── Fill Preset ────────────────────────────
 function fillPreset(from, to, days, style) {
   document.getElementById('from').value  = from;
   document.getElementById('to').value    = to;
   document.getElementById('days').value  = days;
   document.getElementById('style').value = style;
+  scrollToPlanner();
+}
+
+// ── Get selected budget ────────────────────
+function getSelectedBudget() {
+  const selected = document.querySelector('input[name="budget"]:checked');
+  return selected ? selected.value : 'mid (₹500–₹1500)';
 }
 
 // ── Plan Trip ──────────────────────────────
@@ -16,7 +37,7 @@ async function planTrip() {
   const to     = document.getElementById('to').value.trim();
   const days   = parseInt(document.getElementById('days').value);
   const style  = document.getElementById('style').value;
-  const budget = document.getElementById('budget').value;
+  const budget = getSelectedBudget();
 
   if (!from || !to) {
     showError('Please enter both From and To cities.');
@@ -59,52 +80,60 @@ async function planTrip() {
 
 // ── Section config ─────────────────────────
 const SECTIONS = [
-  { key: '🚗 ROUTE OVERVIEW',    icon: '🚗', label: 'Route Overview',    color: '#FF6B35' },
-  { key: '⛽ FUEL STOPS',         icon: '⛽', label: 'Fuel Stops',         color: '#F59E0B' },
-  { key: '🍽️ EAT ON THE WAY',    icon: '🍽️', label: 'Eat on the Way',    color: '#10B981' },
-  { key: '💎 HIDDEN GEMS',        icon: '💎', label: 'Hidden Gems',        color: '#8B5CF6' },
-  { key: '📅 DAY-WISE ITINERARY', icon: '📅', label: 'Day-wise Itinerary', color: '#3B82F6' },
-  { key: '💰 BUDGET BREAKDOWN',   icon: '💰', label: 'Budget Breakdown',   color: '#059669' },
-  { key: '⚠️ TRIP WARNINGS',      icon: '⚠️', label: 'Trip Warnings',      color: '#EF4444' },
-  { key: '📲 WHATSAPP SUMMARY',   icon: '📲', label: 'WhatsApp Summary',   color: '#25D366' },
+  { key: '🚗 ROUTE OVERVIEW',    icon: '🚗', label: 'Route Overview',    color: '#C1440E' },
+  { key: '⛽ FUEL STOPS',         icon: '⛽', label: 'Fuel Stops',         color: '#F4A024' },
+  { key: '🍽️ EAT ON THE WAY',    icon: '🍽️', label: 'Eat on the Way',    color: '#2D6A4F' },
+  { key: '💎 HIDDEN GEMS',        icon: '💎', label: 'Hidden Gems',        color: '#7C3AED' },
+  { key: '📅 DAY-WISE ITINERARY', icon: '📅', label: 'Day-wise Itinerary', color: '#1D4ED8' },
+  { key: '💰 BUDGET BREAKDOWN',   icon: '💰', label: 'Budget Breakdown',   color: '#065F46' },
+  { key: '⚠️ TRIP WARNINGS',      icon: '⚠️', label: 'Trip Warnings',      color: '#DC2626' },
+  { key: '📲 WHATSAPP SUMMARY',   icon: '📲', label: 'WhatsApp Summary',   color: '#16A34A' },
 ];
+
+// ── Clean whitespace ───────────────────────
+function cleanText(text) {
+  return text
+    .replace(/\n{3,}/g, '\n\n')
+    .replace(/[ \t]+\n/g, '\n')
+    .replace(/\n[ \t]+/g, '\n')
+    .trim();
+}
 
 // ── Parse plan into sections ───────────────
 function parsePlan(planText) {
+  const cleaned  = cleanText(planText);
   const sections = [];
-  let remaining  = planText;
 
   SECTIONS.forEach((sec, i) => {
-    const startIdx = remaining.indexOf(sec.key);
+    const startIdx = cleaned.indexOf(sec.key);
     if (startIdx === -1) return;
 
-    let endIdx = remaining.length;
+    let endIdx = cleaned.length;
     for (let j = i + 1; j < SECTIONS.length; j++) {
-      const nextIdx = remaining.indexOf(SECTIONS[j].key);
+      const nextIdx = cleaned.indexOf(SECTIONS[j].key);
       if (nextIdx !== -1 && nextIdx > startIdx) {
         endIdx = nextIdx;
         break;
       }
     }
 
-    const content = remaining
+    const content = cleaned
       .substring(startIdx + sec.key.length, endIdx)
+      .replace(/\n{2,}/g, '\n')
       .trim();
 
-    sections.push({ ...sec, content });
+    if (content) sections.push({ ...sec, content });
   });
 
   return sections;
 }
 
-// ── Render sections as styled cards ───────
+// ── Render sections ────────────────────────
 function renderPlan(planText) {
   const sections = parsePlan(planText);
-
   if (sections.length === 0) {
-    return `<pre class="plain-text">${planText}</pre>`;
+    return `<pre class="plain-text">${cleanText(planText)}</pre>`;
   }
-
   return sections.map(sec => `
     <div class="plan-section">
       <div class="plan-section__header"
@@ -128,8 +157,7 @@ function formatContent(content, sectionKey) {
   }
 
   if (sectionKey === '💰 BUDGET BREAKDOWN') {
-    const lines = content.split('\n').filter(l => l.trim());
-    return lines.map(line => {
+    return content.split('\n').filter(l => l.trim()).map(line => {
       const isTotal = line.toLowerCase().includes('total');
       return `<div class="budget-line ${isTotal ? 'budget-line--total' : ''}">
         ${line.trim()}
@@ -138,26 +166,31 @@ function formatContent(content, sectionKey) {
   }
 
   if (sectionKey === '⚠️ TRIP WARNINGS') {
-    const lines = content.split('\n').filter(l => l.trim());
-    return lines.map(line =>
+    return content.split('\n').filter(l => l.trim()).map(line =>
       `<div class="warning-line">${line.trim()}</div>`
     ).join('');
   }
 
-  const lines = content.split('\n').filter(l => l.trim());
-  return lines.map(line => {
-    const trimmed = line.trim();
-    if (trimmed.startsWith('DAY')) {
-      return `<div class="day-header">${trimmed}</div>`;
+  return content.split('\n').filter(l => l.trim()).map(line => {
+    const t = line.trim();
+    if (/^DAY\s*\d+/i.test(t)) {
+      return `<div class="day-header">${t}</div>`;
     }
-    if (trimmed.startsWith('•') || trimmed.startsWith('-')) {
-      return `<div class="bullet-line">${trimmed}</div>`;
+    if (t.startsWith('•') || t.startsWith('-') || t.startsWith('*')) {
+      const clean = t.replace(/^[•\-\*]\s*/, '');
+      return `<div class="bullet-line">
+        <span class="bullet-dot">•</span>
+        <span>${clean}</span>
+      </div>`;
     }
-    return `<div class="text-line">${trimmed}</div>`;
+    if (/^\d+\./.test(t)) {
+      return `<div class="numbered-line">${t}</div>`;
+    }
+    return `<div class="text-line">${t}</div>`;
   }).join('');
 }
 
-// ── Update Google Maps embed ───────────────
+// ── Update map ─────────────────────────────
 function updateMap(from, to) {
   const origin      = encodeURIComponent(from + ', India');
   const destination = encodeURIComponent(to + ', India');
@@ -168,19 +201,16 @@ function updateMap(from, to) {
     `&destination=${destination}` +
     `&mode=driving` +
     `&language=en`;
-
   document.getElementById('route-map').src = mapUrl;
 }
 
 // ── Show Result ────────────────────────────
 function showResult(from, to, days, style, budget, plan) {
-  document.getElementById('trip-route').textContent =
-    `${from} → ${to}`;
+  document.getElementById('trip-route').textContent = `${from} → ${to}`;
   document.getElementById('trip-meta').textContent =
     `${days} Day${days > 1 ? 's' : ''} · ${style} · ${budget}`;
 
   document.getElementById('trip-plan').innerHTML = renderPlan(plan);
-
   updateMap(from, to);
 
   document.getElementById('result-section').classList.add('visible');
@@ -192,10 +222,7 @@ function showResult(from, to, days, style, budget, plan) {
 function copyPlan() {
   if (!currentPlan) return;
   navigator.clipboard.writeText(currentPlan).then(() => {
-    const btn  = document.querySelector('.action-btn--copy');
-    const orig = btn.textContent;
-    btn.textContent = '✅ Copied!';
-    setTimeout(() => btn.textContent = orig, 2000);
+    showToast('✅ Plan copied to clipboard!');
   });
 }
 
@@ -216,8 +243,7 @@ function shareWhatsApp() {
 function newTrip() {
   hideResult();
   document.getElementById('route-map').src = '';
-  window.scrollTo({ top: 0, behavior: 'smooth' });
-  document.getElementById('from').focus();
+  scrollToPlanner();
 }
 
 // ── Helpers ────────────────────────────────
@@ -227,17 +253,19 @@ function showLoading(show) {
   if (show) {
     el.classList.add('visible');
     btn.disabled = true;
-    btn.textContent = '⏳ Planning...';
+    btn.querySelector('.plan-btn__text').textContent = '⏳ Planning...';
   } else {
     el.classList.remove('visible');
     btn.disabled = false;
-    btn.textContent = '🗺️ Plan My Trip';
+    btn.querySelector('.plan-btn__text').textContent = '🗺️ Plan My Trip';
   }
 }
 
 function showError(msg) {
   document.getElementById('error-text').textContent = msg;
   document.getElementById('error-box').classList.add('visible');
+  document.getElementById('error-box')
+    .scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 }
 
 function hideError() {

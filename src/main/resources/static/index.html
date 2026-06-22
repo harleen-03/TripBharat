@@ -3,49 +3,101 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>TripBharat — AI Road Trip Planner</title>
+    <title>TripBharat — AI Road Trip Planner for India</title>
     <link rel="stylesheet" href="style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
 
-<div class="page">
+<div class="toast" id="toast"></div>
 
-    <!-- Header -->
-    <header class="header">
-        <div class="header__logo">🚗 TripBharat</div>
-        <div class="header__tagline">
-            India's AI road trip planner — built for Indians, not tourists
+<!-- ── Hero Section ───────────────────── -->
+<section class="hero">
+    <div class="hero__overlay"></div>
+    <div class="hero__content">
+        <div class="hero__badge">🇮🇳 Made for Bharat</div>
+        <h1 class="hero__title">
+            Your AI Road Trip<br/>Planner for India
+        </h1>
+        <p class="hero__sub">
+            Local dhabas. Hidden gems. NH routes. Budget breakdowns.<br/>
+            Everything a real Indian road tripper needs.
+        </p>
+        <button class="hero__cta" onclick="scrollToPlanner()">
+            Plan My Trip →
+        </button>
+    </div>
+    <div class="hero__scroll" onclick="scrollToPlanner()">
+        <span>↓</span>
+    </div>
+</section>
+
+<!-- ── Stats Bar ───────────────────────── -->
+<section class="stats-bar">
+    <div class="stat">
+        <div class="stat__num">200+</div>
+        <div class="stat__label">Indian Routes</div>
+    </div>
+    <div class="stat-divider"></div>
+    <div class="stat">
+        <div class="stat__num">AI</div>
+        <div class="stat__label">Powered by Groq</div>
+    </div>
+    <div class="stat-divider"></div>
+    <div class="stat">
+        <div class="stat__num">Free</div>
+        <div class="stat__label">Always</div>
+    </div>
+    <div class="stat-divider"></div>
+    <div class="stat">
+        <div class="stat__num">10s</div>
+        <div class="stat__label">To Plan</div>
+    </div>
+</section>
+
+<!-- ── Planner Section ────────────────── -->
+<section class="planner" id="planner">
+    <div class="planner__inner">
+
+        <div class="planner__heading">
+            <h2>Plan Your Trip</h2>
+            <p>Fill in the details and let AI do the rest</p>
         </div>
-    </header>
 
-    <!-- Form -->
-    <section class="form-section">
         <div class="form-card">
-
-            <h2 class="form-title">Plan Your Road Trip</h2>
 
             <div class="form-grid">
 
                 <div class="form-group">
-                    <label for="from">From</label>
+                    <label for="from">
+                        <span class="label-icon">📍</span> From
+                    </label>
                     <input
                             type="text"
                             id="from"
                             placeholder="e.g. Bengaluru"
+                            autocomplete="off"
                     />
                 </div>
 
                 <div class="form-group">
-                    <label for="to">To</label>
+                    <label for="to">
+                        <span class="label-icon">🏁</span> To
+                    </label>
                     <input
                             type="text"
                             id="to"
                             placeholder="e.g. Coorg"
+                            autocomplete="off"
                     />
                 </div>
 
                 <div class="form-group">
-                    <label for="days">Number of Days</label>
+                    <label for="days">
+                        <span class="label-icon">📅</span> Number of Days
+                    </label>
                     <input
                             type="number"
                             id="days"
@@ -56,102 +108,126 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="style">Travel Style</label>
+                    <label for="style">
+                        <span class="label-icon">🎒</span> Travel Style
+                    </label>
                     <select id="style">
-                        <option value="Adventure">Adventure</option>
-                        <option value="Relaxed">Relaxed</option>
-                        <option value="Family">Family</option>
-                        <option value="Pilgrimage">Pilgrimage</option>
-                        <option value="Budget Backpacker">Budget Backpacker</option>
+                        <option value="Adventure">🏕️ Adventure</option>
+                        <option value="Relaxed">😌 Relaxed</option>
+                        <option value="Family">👨‍👩‍👧 Family</option>
+                        <option value="Pilgrimage">🛕 Pilgrimage</option>
+                        <option value="Budget Backpacker">🎒 Budget Backpacker</option>
                     </select>
                 </div>
 
-                <div class="form-group">
-                    <label for="budget">Budget (per person per day)</label>
-                    <select id="budget">
-                        <option value="budget (under ₹500)">
-                            Budget (under ₹500)
-                        </option>
-                        <option value="mid (₹500–₹1500)" selected>
-                            Mid (₹500–₹1500)
-                        </option>
-                        <option value="comfortable (₹1500–₹3000)">
-                            Comfortable (₹1500–₹3000)
-                        </option>
-                        <option value="luxury (above ₹3000)">
-                            Luxury (above ₹3000)
-                        </option>
-                    </select>
+                <div class="form-group form-group--full">
+                    <label for="budget">
+                        <span class="label-icon">💰</span> Budget (per person per day)
+                    </label>
+                    <div class="budget-options">
+                        <label class="budget-opt">
+                            <input type="radio" name="budget" value="budget (under ₹500)" />
+                            <span>🪙 Budget<br/><small>under ₹500</small></span>
+                        </label>
+                        <label class="budget-opt">
+                            <input type="radio" name="budget" value="mid (₹500–₹1500)" checked />
+                            <span>💵 Mid<br/><small>₹500–₹1500</small></span>
+                        </label>
+                        <label class="budget-opt">
+                            <input type="radio" name="budget" value="comfortable (₹1500–₹3000)" />
+                            <span>💳 Comfortable<br/><small>₹1500–₹3000</small></span>
+                        </label>
+                        <label class="budget-opt">
+                            <input type="radio" name="budget" value="luxury (above ₹3000)" />
+                            <span>💎 Luxury<br/><small>above ₹3000</small></span>
+                        </label>
+                    </div>
                 </div>
 
             </div>
 
-            <!-- Quick route presets -->
+            <!-- Popular Routes -->
             <div class="presets">
-                <span class="presets__label">Popular routes:</span>
-                <button class="preset-btn"
-                        onclick="fillPreset('Bengaluru','Coorg',2,'Adventure')">
-                    Bengaluru → Coorg
-                </button>
-                <button class="preset-btn"
-                        onclick="fillPreset('Delhi','Manali',5,'Adventure')">
-                    Delhi → Manali
-                </button>
-                <button class="preset-btn"
-                        onclick="fillPreset('Mumbai','Goa',3,'Relaxed')">
-                    Mumbai → Goa
-                </button>
-                <button class="preset-btn"
-                        onclick="fillPreset('Chennai','Pondicherry',1,'Relaxed')">
-                    Chennai → Pondi
-                </button>
-                <button class="preset-btn"
-                        onclick="fillPreset('Pune','Mahabaleshwar',2,'Family')">
-                    Pune → Mahabaleshwar
-                </button>
-                <button class="preset-btn"
-                        onclick="fillPreset('Hyderabad','Hampi',2,'Adventure')">
-                    Hyderabad → Hampi
-                </button>
+                <span class="presets__label">✨ Popular routes:</span>
+                <div class="presets__scroll">
+                    <button class="preset-btn"
+                            onclick="fillPreset('Bengaluru','Coorg',2,'Adventure')">
+                        🌿 Bengaluru → Coorg
+                    </button>
+                    <button class="preset-btn"
+                            onclick="fillPreset('Delhi','Manali',5,'Adventure')">
+                        🏔️ Delhi → Manali
+                    </button>
+                    <button class="preset-btn"
+                            onclick="fillPreset('Mumbai','Goa',3,'Relaxed')">
+                        🌊 Mumbai → Goa
+                    </button>
+                    <button class="preset-btn"
+                            onclick="fillPreset('Chennai','Pondicherry',1,'Relaxed')">
+                        🌅 Chennai → Pondi
+                    </button>
+                    <button class="preset-btn"
+                            onclick="fillPreset('Pune','Mahabaleshwar',2,'Family')">
+                        🍓 Pune → Mahabaleshwar
+                    </button>
+                    <button class="preset-btn"
+                            onclick="fillPreset('Hyderabad','Hampi',2,'Adventure')">
+                        🏛️ Hyderabad → Hampi
+                    </button>
+                </div>
             </div>
 
             <button class="plan-btn" id="plan-btn" onclick="planTrip()">
-                🗺️ Plan My Trip
+                <span class="plan-btn__text">🗺️ Plan My Trip</span>
+                <span class="plan-btn__arrow">→</span>
             </button>
 
         </div>
-    </section>
-
-    <!-- Loading -->
-    <div class="loading" id="loading">
-        <div class="loading__spinner"></div>
-        <div class="loading__text">
-            Planning your trip... This takes 5–10 seconds ☕
-        </div>
     </div>
+</section>
 
-    <!-- Error -->
-    <div class="error-box" id="error-box">
-        <span id="error-text"></span>
+<!-- Loading -->
+<div class="loading" id="loading">
+    <div class="loading__car">🚗</div>
+    <div class="loading__road">
+        <div class="loading__road-line"></div>
     </div>
+    <div class="loading__text">Planning your trip...</div>
+    <div class="loading__sub">Finding local dhabas, hidden gems & best routes</div>
+</div>
 
-    <!-- Trip Card Output -->
-    <section class="result-section" id="result-section">
-        <div class="trip-card" id="trip-card">
+<!-- Error -->
+<div class="error-box" id="error-box">
+    <span class="error-icon">⚠️</span>
+    <span id="error-text"></span>
+</div>
 
+<!-- ── Result Section ─────────────────── -->
+<section class="result-section" id="result-section">
+    <div class="result-inner">
+
+        <div class="trip-card">
+
+            <!-- Trip Card Header -->
             <div class="trip-card__header">
-                <div class="trip-card__route" id="trip-route">
-                    Bengaluru → Coorg
-                </div>
-                <div class="trip-card__meta" id="trip-meta">
-                    2 Days · Adventure · Mid Budget
+                <div class="trip-card__header-bg"></div>
+                <div class="trip-card__header-content">
+                    <div class="trip-card__badge">🚗 Road Trip Plan</div>
+                    <div class="trip-card__route" id="trip-route">
+                        Bengaluru → Coorg
+                    </div>
+                    <div class="trip-card__meta" id="trip-meta">
+                        2 Days · Adventure · Mid Budget
+                    </div>
                 </div>
             </div>
 
+            <!-- Trip Plan Body -->
             <div class="trip-card__body">
-                <pre id="trip-plan"></pre>
+                <div id="trip-plan"></div>
             </div>
 
+            <!-- Action Buttons -->
             <div class="trip-card__actions">
                 <button class="action-btn action-btn--copy"
                         onclick="copyPlan()">
@@ -167,7 +243,7 @@
                 </button>
             </div>
 
-            <!-- Google Maps Route -->
+            <!-- Google Maps -->
             <div class="map-section" id="map-section">
                 <div class="map-section__header">
                     <span>🗺️ Route Map</span>
@@ -176,7 +252,7 @@
                     <iframe
                             id="route-map"
                             width="100%"
-                            height="350"
+                            height="380"
                             style="border:0;"
                             loading="lazy"
                             allowfullscreen
@@ -187,17 +263,44 @@
             </div>
 
         </div>
-    </section>
 
-    <!-- Footer -->
-    <footer class="footer">
-        <p class="footer__disclaimer">
-            ⚠️ AI-generated plans. Always verify road conditions,
-            fuel stops, and restaurant availability before travel.
-        </p>
-    </footer>
+    </div>
+</section>
 
-</div>
+<!-- ── How It Works ───────────────────── -->
+<section class="how-it-works">
+    <h2 class="how-it-works__title">How it works</h2>
+    <div class="steps">
+        <div class="step">
+            <div class="step__icon">📍</div>
+            <div class="step__title">Enter your route</div>
+            <div class="step__body">Tell us where you're starting, where you're headed, and how many days you have.</div>
+        </div>
+        <div class="step-arrow">→</div>
+        <div class="step">
+            <div class="step__icon">🤖</div>
+            <div class="step__title">AI plans it</div>
+            <div class="step__body">Our AI builds a hyper-local plan with NH routes, dhabas, hidden gems, and budget.</div>
+        </div>
+        <div class="step-arrow">→</div>
+        <div class="step">
+            <div class="step__icon">📲</div>
+            <div class="step__title">Share & go</div>
+            <div class="step__body">Share on WhatsApp with your group and hit the road!</div>
+        </div>
+    </div>
+</section>
+
+<!-- ── Footer ────────────────────────── -->
+<footer class="footer">
+    <div class="footer__logo">🚗 TripBharat</div>
+    <p class="footer__tagline">Built for Indians, by an Indian</p>
+    <p class="footer__disclaimer">
+        ⚠️ AI-generated plans. Always verify road conditions,
+        fuel stops, and restaurant availability before travel.
+    </p>
+</footer>
 
 <script src="app.js"></script>
 </body>
+</html>
