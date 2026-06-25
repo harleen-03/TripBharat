@@ -35,3 +35,4 @@ build/
 
 src/main/resources/application.properties
 src/main/resources/static/app.js
+src/main/java/com/tripbharat/tripbharat/util
