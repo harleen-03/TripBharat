@@ -342,7 +342,16 @@ body {
 .budget-options {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 10px;
+  gap: 12px;
+  align-items: stretch;
+}
+
+.budget-opt span {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 .budget-opt {
@@ -354,9 +363,12 @@ body {
 }
 
 .budget-opt span {
-  display: block;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   text-align: center;
-  padding: 10px 8px;
+  padding: 12px 8px;
   border: 1.5px solid var(--gray2);
   border-radius: var(--radius);
   font-size: 12px;
@@ -366,6 +378,7 @@ body {
   transition: all 0.2s;
   line-height: 1.4;
   cursor: pointer;
+  min-height: 64px;
 }
 
 .budget-opt span small {
