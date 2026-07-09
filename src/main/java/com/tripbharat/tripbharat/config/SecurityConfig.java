@@ -37,10 +37,10 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(
-                                "/api/auth/**",     // register + login
-                                "/api/plan",        // trip planning
-                                "/api/health",      // health check
-                                "/",                // frontend
+                                "/api/auth/**",
+                                "/api/plan",
+                                "/api/health",
+                                "/",
                                 "/index.html",
                                 "/style.css",
                                 "/app.js",
@@ -48,8 +48,8 @@ public class SecurityConfig {
                                 "/**/*.css",
                                 "/**/*.js"
                         ).permitAll()
-                        .anyRequest()
-                        .authenticated())
+                        .anyRequest().authenticated()
+                )
                 // Use stateless sessions — JWT handles auth, no session needed
         .sessionManagement(session -> session
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
