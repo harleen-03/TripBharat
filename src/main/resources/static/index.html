@@ -13,7 +13,36 @@
 
 <div class="toast" id="toast"></div>
 
-<!-- ── Hero Section ───────────────────── -->
+<!-- ── Navbar ─────────────────────────────── -->
+<nav class="navbar" id="navbar">
+    <div class="navbar__logo">🚗 TripBharat</div>
+    <div class="navbar__right">
+        <!-- Shown when logged out -->
+        <div id="nav-logged-out">
+            <button class="nav-btn" onclick="openModal('login')">
+                Login
+            </button>
+            <button class="nav-btn nav-btn--primary"
+                    onclick="openModal('register')">
+                Sign Up
+            </button>
+        </div>
+        <!-- Shown when logged in -->
+        <div id="nav-logged-in" style="display:none;">
+            <button class="nav-btn nav-btn--trips"
+                    onclick="openSavedTrips()">
+                🗺️ My Trips
+            </button>
+            <div class="nav-avatar" id="nav-avatar">H</div>
+            <button class="nav-btn nav-btn--logout"
+                    onclick="logout()">
+                Logout
+            </button>
+        </div>
+    </div>
+</nav>
+
+<!-- ── Hero Section ───────────────────────── -->
 <section class="hero">
     <div class="hero__overlay"></div>
     <div class="hero__content">
@@ -34,7 +63,7 @@
     </div>
 </section>
 
-<!-- ── Stats Bar ───────────────────────── -->
+<!-- ── Stats Bar ───────────────────────────── -->
 <section class="stats-bar">
     <div class="stat">
         <div class="stat__num">200+</div>
@@ -57,7 +86,7 @@
     </div>
 </section>
 
-<!-- ── Planner Section ────────────────── -->
+<!-- ── Planner Section ────────────────────── -->
 <section class="planner" id="planner">
     <div class="planner__inner">
 
@@ -67,44 +96,29 @@
         </div>
 
         <div class="form-card">
-
             <div class="form-grid">
 
                 <div class="form-group">
                     <label for="from">
                         <span class="label-icon">📍</span> From
                     </label>
-                    <input
-                            type="text"
-                            id="from"
-                            placeholder="e.g. Bengaluru"
-                            autocomplete="off"
-                    />
+                    <input type="text" id="from"
+                           placeholder="e.g. Bengaluru" autocomplete="off"/>
                 </div>
 
                 <div class="form-group">
                     <label for="to">
                         <span class="label-icon">🏁</span> To
                     </label>
-                    <input
-                            type="text"
-                            id="to"
-                            placeholder="e.g. Coorg"
-                            autocomplete="off"
-                    />
+                    <input type="text" id="to"
+                           placeholder="e.g. Coorg" autocomplete="off"/>
                 </div>
 
                 <div class="form-group">
                     <label for="days">
                         <span class="label-icon">📅</span> Number of Days
                     </label>
-                    <input
-                            type="number"
-                            id="days"
-                            min="1"
-                            max="14"
-                            value="2"
-                    />
+                    <input type="number" id="days" min="1" max="14" value="2"/>
                 </div>
 
                 <div class="form-group">
@@ -121,24 +135,29 @@
                 </div>
 
                 <div class="form-group form-group--full">
-                    <label for="budget">
-                        <span class="label-icon">💰</span> Budget (per person per day)
+                    <label>
+                        <span class="label-icon">💰</span>
+                        Budget (per person per day)
                     </label>
                     <div class="budget-options">
                         <label class="budget-opt">
-                            <input type="radio" name="budget" value="budget (under ₹500)" />
+                            <input type="radio" name="budget"
+                                   value="budget (under ₹500)" />
                             <span>🪙 Budget<br/><small>under ₹500</small></span>
                         </label>
                         <label class="budget-opt">
-                            <input type="radio" name="budget" value="mid (₹500–₹1500)" checked />
+                            <input type="radio" name="budget"
+                                   value="mid (₹500–₹1500)" checked />
                             <span>💵 Mid<br/><small>₹500–₹1500</small></span>
                         </label>
                         <label class="budget-opt">
-                            <input type="radio" name="budget" value="comfortable (₹1500–₹3000)" />
+                            <input type="radio" name="budget"
+                                   value="comfortable (₹1500–₹3000)" />
                             <span>💳 Comfortable<br/><small>₹1500–₹3000</small></span>
                         </label>
                         <label class="budget-opt">
-                            <input type="radio" name="budget" value="luxury (above ₹3000)" />
+                            <input type="radio" name="budget"
+                                   value="luxury (above ₹3000)" />
                             <span>💎 Luxury<br/><small>above ₹3000</small></span>
                         </label>
                     </div>
@@ -193,7 +212,9 @@
         <div class="loading__road-line"></div>
     </div>
     <div class="loading__text">Planning your trip...</div>
-    <div class="loading__sub">Finding local dhabas, hidden gems & best routes</div>
+    <div class="loading__sub">
+        Finding local dhabas, hidden gems and best routes
+    </div>
 </div>
 
 <!-- Error -->
@@ -202,13 +223,11 @@
     <span id="error-text"></span>
 </div>
 
-<!-- ── Result Section ─────────────────── -->
+<!-- ── Result Section ─────────────────────── -->
 <section class="result-section" id="result-section">
     <div class="result-inner">
-
         <div class="trip-card">
 
-            <!-- Trip Card Header -->
             <div class="trip-card__header">
                 <div class="trip-card__header-bg"></div>
                 <div class="trip-card__header-content">
@@ -222,13 +241,15 @@
                 </div>
             </div>
 
-            <!-- Trip Plan Body -->
             <div class="trip-card__body">
                 <div id="trip-plan"></div>
             </div>
 
-            <!-- Action Buttons -->
             <div class="trip-card__actions">
+                <button class="action-btn action-btn--save"
+                        onclick="saveTrip()">
+                    🔖 Save Trip
+                </button>
                 <button class="action-btn action-btn--copy"
                         onclick="copyPlan()">
                     📋 Copy Plan
@@ -239,62 +260,165 @@
                 </button>
                 <button class="action-btn action-btn--new"
                         onclick="newTrip()">
-                    🔄 Plan Another Trip
+                    🔄 New Trip
                 </button>
             </div>
 
-            <!-- Google Maps -->
             <div class="map-section" id="map-section">
                 <div class="map-section__header">
                     <span>🗺️ Route Map</span>
                 </div>
                 <div class="map-container">
-                    <iframe
-                            id="route-map"
-                            width="100%"
-                            height="380"
-                            style="border:0;"
-                            loading="lazy"
-                            allowfullscreen
-                            referrerpolicy="no-referrer-when-downgrade"
-                            src="">
+                    <iframe id="route-map" width="100%" height="380"
+                            style="border:0;" loading="lazy" allowfullscreen
+                            referrerpolicy="no-referrer-when-downgrade" src="">
                     </iframe>
                 </div>
             </div>
 
         </div>
-
     </div>
 </section>
 
-<!-- ── How It Works ───────────────────── -->
+<!-- ── Saved Trips Panel ───────────────────── -->
+<div class="panel-overlay" id="panel-overlay"
+     onclick="closeSavedTrips()"></div>
+
+<div class="saved-panel" id="saved-panel">
+    <div class="saved-panel__header">
+        <div class="saved-panel__title">🗺️ My Saved Trips</div>
+        <button class="saved-panel__close"
+                onclick="closeSavedTrips()">✕</button>
+    </div>
+    <div class="saved-panel__body" id="saved-panel-body">
+        <div class="saved-empty">
+            No saved trips yet. Plan a trip and save it!
+        </div>
+    </div>
+</div>
+
+<!-- ── Login Modal ────────────────────────── -->
+<div class="modal-overlay" id="modal-overlay"
+     onclick="closeModal()"></div>
+
+<div class="modal" id="modal">
+    <button class="modal__close" onclick="closeModal()">✕</button>
+
+    <!-- Tabs -->
+    <div class="modal__tabs">
+        <button class="modal__tab active" id="tab-login"
+                onclick="switchTab('login')">
+            Login
+        </button>
+        <button class="modal__tab" id="tab-register"
+                onclick="switchTab('register')">
+            Sign Up
+        </button>
+    </div>
+
+    <!-- Login Form -->
+    <div class="modal__form" id="form-login">
+        <h2 class="modal__title">Welcome back 👋</h2>
+        <p class="modal__sub">Login to save and view your trips</p>
+
+        <div class="modal__field">
+            <label>Email</label>
+            <input type="email" id="login-email"
+                   placeholder="harleen@gmail.com" />
+        </div>
+        <div class="modal__field">
+            <label>Password</label>
+            <input type="password" id="login-password"
+                   placeholder="Your password" />
+        </div>
+
+        <div class="modal__error" id="login-error"></div>
+
+        <button class="modal__btn" id="login-btn"
+                onclick="handleLogin()">
+            Login
+        </button>
+
+        <p class="modal__switch">
+            Don't have an account?
+            <span onclick="switchTab('register')">Sign up</span>
+        </p>
+    </div>
+
+    <!-- Register Form -->
+    <div class="modal__form" id="form-register" style="display:none;">
+        <h2 class="modal__title">Create account 🚗</h2>
+        <p class="modal__sub">Join TripBharat and save your trips</p>
+
+        <div class="modal__field">
+            <label>Full Name</label>
+            <input type="text" id="register-name"
+                   placeholder="Harleen Kaur" />
+        </div>
+        <div class="modal__field">
+            <label>Email</label>
+            <input type="email" id="register-email"
+                   placeholder="harleen@gmail.com" />
+        </div>
+        <div class="modal__field">
+            <label>Password</label>
+            <input type="password" id="register-password"
+                   placeholder="Min 6 characters" />
+        </div>
+
+        <div class="modal__error" id="register-error"></div>
+
+        <button class="modal__btn" id="register-btn"
+                onclick="handleRegister()">
+            Create Account
+        </button>
+
+        <p class="modal__switch">
+            Already have an account?
+            <span onclick="switchTab('login')">Login</span>
+        </p>
+    </div>
+
+</div>
+
+<!-- ── How It Works ───────────────────────── -->
 <section class="how-it-works">
     <h2 class="how-it-works__title">How it works</h2>
     <div class="steps">
         <div class="step">
             <div class="step__icon">📍</div>
             <div class="step__title">Enter your route</div>
-            <div class="step__body">Tell us where you're starting, where you're headed, and how many days you have.</div>
+            <div class="step__body">Tell us where you're starting,
+                where you're headed, and how many days you have.</div>
         </div>
         <div class="step-arrow">→</div>
         <div class="step">
             <div class="step__icon">🤖</div>
             <div class="step__title">AI plans it</div>
-            <div class="step__body">Our AI builds a hyper-local plan with NH routes, dhabas, hidden gems, and budget.</div>
+            <div class="step__body">Our AI builds a hyper-local plan
+                with NH routes, dhabas, hidden gems, and budget.</div>
         </div>
         <div class="step-arrow">→</div>
         <div class="step">
             <div class="step__icon">📲</div>
-            <div class="step__title">Share & go</div>
-            <div class="step__body">Share on WhatsApp with your group and hit the road!</div>
+            <div class="step__title">Share and go</div>
+            <div class="step__body">Share on WhatsApp with your group
+                and hit the road!</div>
         </div>
     </div>
 </section>
 
-<!-- ── Footer ────────────────────────── -->
+<!-- ── Footer ────────────────────────────── -->
 <footer class="footer">
     <div class="footer__logo">🚗 TripBharat</div>
     <p class="footer__tagline">Built for Indians, by an Indian</p>
+    <div class="footer__links">
+        <a href="https://github.com/harleen-03/TripBharat"
+           target="_blank">GitHub</a>
+        <span>·</span>
+        <a href="https://linkedin.com/in/harleenbhatia03"
+           target="_blank">LinkedIn</a>
+    </div>
     <p class="footer__disclaimer">
         ⚠️ AI-generated plans. Always verify road conditions,
         fuel stops, and restaurant availability before travel.
